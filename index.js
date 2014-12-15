@@ -13,8 +13,8 @@ var transporter = mailer.createTransport({
 });
 
 var mailOptions = {
-  from: config.from.email + ', wompworth.carlsbad@gmail.com',
-  to: config.triggerTarget,
+  from: config.from.email,
+  to: config.triggerTarget + ', wompworth.carlsbad@gmail.com',
 };
 
 app.get('/build/success', function(req, res, next) {
