@@ -1,0 +1,16 @@
+{
+	"smtp": {
+		"server": "smtp.gmail.com",
+		"port": 465
+	},
+	"triggerTarget": "trigger@recipe.ifttt.com",
+	"from": {
+		"email": null,
+		"pw": null
+	},
+	"buildTags": {
+		"success": "#buildsucces",
+		"running": "#building",
+		"failed": "#brokenbuild"
+	}
+}
