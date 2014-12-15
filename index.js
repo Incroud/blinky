@@ -1,34 +1,32 @@
+"use strict";
+
 var express = require('express'),
   config = require('config'),
   app = express(),
-  mailer = require('nodemailer');
-
-var transporter = mailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: config.from.email,
-    pass: config.from.pw
+  mailer = require('./services/Mailer'),
+  mailOptions = {
+    from: config.from.email,
+    // to: config.triggerTarget + ', wompworth.carlsbad@gmail.com',
+    to: 'wompworth.carlsbad@gmail.com',
   },
-  secure: true
-});
+  validStatus = ['success', 'running', 'failed'];
 
-var mailOptions = {
-  from: config.from.email,
-  to: config.triggerTarget + ', wompworth.carlsbad@gmail.com',
-};
+app.get('/build/:buildStatus', function(req, res, next) {
+  if(validStatus.indexOf(req.params.buildStatus) === -1) {
+    return res.status(404).end();
+  }
 
-app.get('/build/success', function(req, res, next) {
-  mailOptions.subject = config.buildTags.success;
+  mailOptions.subject = '#'+req.params.buildStatus;
 
-  transporter.sendMail(mailOptions, function(err, info){
+  mailer.send(mailOptions, function mailerCallback(err, result) {
     if(err){
       var resData = {message: err.message};
       res.status(500).json(resData);
       return console.log(err);
     }
 
-    console.log('Message sent: ' + info.response);
-    var resData = {message: info.response};
+    console.log('Message sent: ' + result.response);
+    var resData = {message: result.response};
     res.status(200).json(resData);
   });
 });
