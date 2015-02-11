@@ -6,8 +6,7 @@ var express = require('express'),
   mailer = require('./services/Mailer'),
   mailOptions = {
     from: config.from.email,
-    // to: config.triggerTarget + ', wompworth.carlsbad@gmail.com',
-    to: 'wompworth.carlsbad@gmail.com',
+    to: config.triggerTarget + ', wompworth.carlsbad@gmail.com',
   },
   validStatus = ['success', 'running', 'failed'];
 
